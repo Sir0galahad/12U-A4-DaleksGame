@@ -1,10 +1,12 @@
 
-/** This class models the Doctor in the game. A Doctor has
- *  a position and can move to a new position.
+/**
+ * This class models the Doctor in the game. A Doctor has a position and can
+ * move to a new position.
  */
 public class Doctor {
 
     private int row, col;
+    private boolean alive;
 
     /**
      * Initializes the variables for a Doctor.
@@ -13,7 +15,9 @@ public class Doctor {
      * @param theCol The column this Doctor starts at.
      */
     public Doctor(int theRow, int theCol) {
-
+        this.row = theRow;
+        this.col = theCol;
+        alive = true;
     }
 
     /**
@@ -28,6 +32,21 @@ public class Doctor {
      * @param newCol The column the player clicked on.
      */
     public void move(int newRow, int newCol) {
+        if (newRow > this.row + 1 || newRow < this.row - 1 || newCol > this.col + 1 || newCol < this.col - 1) {
+            this.col = (int) (Math.random() * 12);
+            this.row = (int) (Math.random() * 12);
+        } else {
+            if (newRow == this.row + 1) {
+                this.row++;
+            } else if (newRow == this.row - 1) {
+                this.row--;
+            }
+            if (newCol == this.col + 1) {
+                this.col++;
+            } else if (newCol == this.col - 1) {
+                this.col--;
+            }
+        }
 
     }
 
@@ -37,7 +56,7 @@ public class Doctor {
      * @return This Doctor's row.
      */
     public int getRow() {
-
+        return row;
     }
 
     /**
@@ -46,7 +65,31 @@ public class Doctor {
      * @return This Doctor's column.
      */
     public int getCol() {
-
+        return col;
     }
 
+    /**
+     * returns if the doctor is alive
+     *
+     * @return true if the doctor is alive
+     */
+    public boolean isAlive() {
+        if (alive) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Setting the doctor to dead if there is a dalek on the same spot as the
+     * dalek
+     *
+     * @param D a dalek that you feed in
+     */
+    public void caught(Dalek D) {
+        if (row == D.getRow() && col == D.getCol()) {
+            alive = false;
+        }
+    }
 }
